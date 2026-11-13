@@ -10,6 +10,8 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(const MyApp());
+    await tester.tap(find.text('Tabela'));
+    await tester.pumpAndSettle();
     for (final module in financeModules) {
       final tile = find.widgetWithText(ListTile, module.name);
       await tester.ensureVisible(tile);
@@ -36,6 +38,28 @@ void main() {
     await tester.tap(find.widgetWithText(ListTile, 'Accounts'));
     await tester.pumpAndSettle();
     expect(find.text('Accounts 0'), findsOneWidget);
+    await tester.ensureVisible(find.widgetWithText(ListTile, 'Tabela'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Tabela'));
+    await tester.pumpAndSettle();
+    expect(find.widgetWithText(ListTile, 'Accounts'), findsNothing);
+    await tester.tap(find.widgetWithText(ListTile, 'Dashboard'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Os indicadores financeiros serão disponibilizados aqui.'),
+      findsOneWidget,
+    );
+    await tester.tap(find.widgetWithText(ListTile, 'Configurações'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('As preferências do aplicativo serão disponibilizadas aqui.'),
+      findsOneWidget,
+    );
+    await tester.tap(find.text('Tabela'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(ListTile, 'Accounts'));
+    await tester.pumpAndSettle();
+    expect(find.text('Accounts 0'), findsOneWidget);
   });
 
   testWidgets('Mobile navigation uses a drawer and cancel adds no row', (
@@ -47,6 +71,8 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(const MyApp());
     await tester.tap(find.byTooltip('Open navigation menu'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Tabela'));
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(ListTile, 'Tags'));
     await tester.pumpAndSettle();

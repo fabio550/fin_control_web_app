@@ -1,6 +1,7 @@
 # Fin Control
 
-Aplicativo Flutter com menu lateral para Accounts, Invoices, Merchants, Categories,
+Aplicativo Flutter com menu lateral contendo Tabela, Dashboard e Configurações.
+Tabela abre um submenu expansível para Accounts, Invoices, Merchants, Categories,
 Tags, Transactions, TransactionTags, LoanContracts, LoanInstallments, Products,
 TransactionItems, Budgets e RecurringTransactions.
 
@@ -38,3 +39,6 @@ flutter build web
 - `lib/presentation/widgets/finance_empty_state.dart`: apresentação da tabela vazia.
 - `lib/presentation/widgets/finance_entry_dialog.dart`: formulário de inclusão,
   validação e ciclo de vida dos controladores. Retorna os dados à página ao salvar.
+
+Dashboard e Configurações possuem páginas iniciais, ainda sem indicadores ou
+preferências implementados. Fechar o submenu não limpa os registros cadastrados.

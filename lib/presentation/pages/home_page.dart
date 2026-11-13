@@ -2,6 +2,9 @@ import 'package:fin_control_web_app/domain/finance_module.dart';
 import 'package:flutter/material.dart';
 
 import 'finance_module_page.dart';
+import 'dashboard_page.dart';
+import 'settings_page.dart';
+import '../navigation/sidebar_destination.dart';
 import '../widgets/finance_sidebar.dart';
 import '../widgets/finance_entry_dialog.dart';
 
@@ -14,12 +17,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selected = 0;
+  SidebarDestination _destination = SidebarDestination.tables;
+  bool _tablesExpanded = false;
   final Map<String, List<List<String>>> _records = {};
 
   void _select(int index, {bool closeDrawer = false}) {
-    setState(() => _selected = index);
+    setState(() {
+      _selected = index;
+      _destination = SidebarDestination.tables;
+    });
     if (closeDrawer) Navigator.of(context).pop();
   }
+
+  void _selectDestination(
+    SidebarDestination destination, {
+    bool closeDrawer = false,
+  }) {
+    setState(() => _destination = destination);
+    if (closeDrawer) Navigator.of(context).pop();
+  }
+
+  void _toggleTables() => setState(() => _tablesExpanded = !_tablesExpanded);
 
   Future<void> _add(FinanceModule module) async {
     final record = await showDialog<List<String>>(
@@ -46,6 +64,11 @@ class _HomePageState extends State<HomePage> {
                 width: 290,
                 child: FinanceSidebar(
                   selectedIndex: _selected,
+                  destination: _destination,
+                  tablesExpanded: _tablesExpanded,
+                  onToggleTables: _toggleTables,
+                  onDestinationSelected: (destination) =>
+                      _selectDestination(destination, closeDrawer: true),
                   onSelected: (index) => _select(index, closeDrawer: true),
                 ),
               ),
@@ -58,6 +81,10 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.white,
                   child: FinanceSidebar(
                     selectedIndex: _selected,
+                    destination: _destination,
+                    tablesExpanded: _tablesExpanded,
+                    onToggleTables: _toggleTables,
+                    onDestinationSelected: _selectDestination,
                     onSelected: _select,
                   ),
                 ),
@@ -66,11 +93,15 @@ class _HomePageState extends State<HomePage> {
             ],
             Expanded(
               child: SafeArea(
-                child: FinanceModulePage(
-                  module: module,
-                  rows: _records[module.name] ?? [],
-                  onAdd: () => _add(module),
-                ),
+                child: switch (_destination) {
+                  SidebarDestination.tables => FinanceModulePage(
+                    module: module,
+                    rows: _records[module.name] ?? [],
+                    onAdd: () => _add(module),
+                  ),
+                  SidebarDestination.dashboard => const DashboardPage(),
+                  SidebarDestination.settings => const SettingsPage(),
+                },
               ),
             ),
           ],
