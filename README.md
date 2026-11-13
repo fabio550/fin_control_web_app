@@ -1,17 +1,30 @@
-# fin_control_web_app
+# Fin Control
 
-A new Flutter project.
+Aplicativo Flutter com menu lateral para Accounts, Invoices, Merchants, Categories,
+Tags, Transactions, TransactionTags, LoanContracts, LoanInstallments, Products,
+TransactionItems, Budgets e RecurringTransactions.
 
-## Getting Started
+Cada seção possui tabela, estado vazio e formulário de inclusão com validação de
+campos obrigatórios. Em telas menores, o menu fica em um drawer.
 
-This project is a starting point for a Flutter application.
+Os registros são mantidos em memória durante a sessão. Recarregar ou reiniciar o
+aplicativo limpa os registros. Integração com banco de dados, relacionamentos por
+identificador e validação financeira dos campos são etapas futuras; os campos
+atuais são textuais e não executam cálculos financeiros.
 
-A few resources to get you started if this is your first Flutter project:
+## Executar
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Com Flutter compatível com o SDK definido em `pubspec.yaml`:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```sh
+flutter pub get
+flutter run -d chrome
+```
+
+## Verificar
+
+```sh
+flutter analyze
+flutter test
+flutter build web
+```
