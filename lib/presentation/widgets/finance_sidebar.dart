@@ -39,7 +39,7 @@ class FinanceSidebar extends StatelessWidget {
         ),
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: EdgeInsets.zero,
             itemCount: financeModules.length,
             itemBuilder: (context, index) {
               final module = financeModules[index];
@@ -49,9 +49,8 @@ class FinanceSidebar extends StatelessWidget {
                   selected: selectedIndex == index,
                   selectedTileColor: const Color(0xFFEFF6FF),
                   selectedColor: const Color(0xFF1D4ED8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  shape: const Border(),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 28),
                   leading: Icon(module.icon, size: 21),
                   title: Text(
                     module.name,
